@@ -9,7 +9,7 @@ import java.net.Socket;
 
 public class Client {
   
-    public void run()throws IOException{
+    public void run() throws IOException{
 int port  = 5050;
 InetAddress address = InetAddress.getByName("localhost");
 Socket socket = new Socket(address,port);

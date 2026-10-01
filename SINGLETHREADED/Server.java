@@ -1,4 +1,5 @@
 package SINGLETHREADED;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,21 +12,28 @@ public class Server {
     public void run() throws IOException {
         int port = 5050;
         ServerSocket socket = new ServerSocket(port);
-        socket.setSoTimeout(10000);
+        // socket.setSoTimeout(10000);
         // socket apna 10 sec ke liye wait kr rha hogaa client ke liye then stop hojega
 
         while (true) {
             try {
                 System.out.println("server is listening on port" + port);
-                Socket acceptConnection = socket.accept(); // accept() method waits for client to connect
-  System.out.println("connection accepted from client"+ acceptConnection.getRemoteSocketAddress());
-PrintWriter toClient = new PrintWriter (acceptConnection.getOutputStream());
-BufferedReader fromClient = new BufferedReader(new InputStreamReader(acceptConnection.getInputStream()));
-toClient.println("HELLO FROM SERVER");
-toClient.close();
-fromClient.close();
-acceptConnection.close();
-
+                Socket client = socket.accept(); // accept() method waits for client to connect
+                System.out.println("connection accepted from client" + client.getRemoteSocketAddress());
+                PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                String line = in.readLine();
+                System.out.println(line);
+                String response = "HTTP/1.1 200 OK\r\n" +
+                                "Content-Type: text/plain\r\n" +
+                                "Content-Length: 18\r\n" +
+                                "\r\n" +
+                                "HELLO FROM SERVER";
+                out.println(response);
+                Thread.sleep(10000);
+                out.close();
+                in.close();
+                client.close();
 
 
             } catch (Exception e) {
