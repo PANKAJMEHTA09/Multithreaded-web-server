@@ -26,11 +26,10 @@ public class Server {
                 System.out.println(line);
                 String response = "HTTP/1.1 200 OK\r\n" +
                                 "Content-Type: text/plain\r\n" +
-                                "Content-Length: 18\r\n" +
+                                "Content-Length: 17\r\n" +
                                 "\r\n" +
                                 "HELLO FROM SERVER";
-                out.println(response);
-                Thread.sleep(10000);
+                out.print(response);
                 out.close();
                 in.close();
                 client.close();
